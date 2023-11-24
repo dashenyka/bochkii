@@ -2,3 +2,49 @@ import random
 import logging
 
 logging.basicConfig(filename='log.log', level=logging.INFO)
+
+def generate_posled(n):
+    posled = list(range(1, n + 1))
+    random.shuffle(posled)
+    logging.info('Сгенерирована последовательность: %s', posled)
+    return posled
+
+def pull_number(posled, pulled_numbers):
+
+    number = posled.pop(0)
+    pulled_numbers.append(number)
+    logging.info('Вытащено число: %d', number)
+    logging.info('Последовательность выпавших чисел: %s', pulled_numbers)
+    return number
+
+def main():
+
+    try:
+        n = int(input('Введите количество бочонков: '))
+        if n < 1:
+            print('Некорректное число. Введите натуральное число больше.')
+            return
+
+        posled = generate_posled(n)
+        pulled_numbers = []
+
+        while True:
+            inp = input('Нажмите Enter для вытаскивания числа или введите "q" для выхода: ')
+
+            if inp == '':
+                if not posled:
+                    print('Все числа вытащены.')
+                    break
+
+                number = pull_number(posled, pulled_numbers)
+
+                print('Выпавшее число:', number)
+            elif inp == ('q' or "Q"):
+                break
+
+    except ValueError:
+        print('Введите число.')
+
+
+if __name__ == '__main__':
+    main()
